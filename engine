@@ -1,0 +1,84 @@
+<?php
+include 'System/autoload.php';
+
+$path = str_replace(basename(__file__),'', realpath(__file__));
+
+\System\autoload::loader();
+
+\System\Core\ErrHandle\Error::analize($path);
+\System\Collection\Functions::initialize();
+
+
+if(!class_exists(\System\Core\Protection\ValidateRequest::class))
+{
+	require_once 'System/Core/Protection/ValidateRequest.php';
+}
+
+use \Config\App;
+use \System\Core\Engine\Console;
+
+date_default_timezone_set(App::getTimezone());
+
+
+Console::start();
+
+$argument = array_slice($argv, 1);
+
+foreach($argument as $row)
+{
+	$argumen = explode(':', $row);
+	
+	echo Console::log(PHP_EOL .$argumen[0].' Proccess...'.PHP_EOL . PHP_EOL, brown);
+	
+	switch(strtolower($argumen[0]))
+	{
+		case 'model':
+			if(isset($argumen[1]))
+			{
+				$table = $argumen[1];
+				
+				require 'System/Core/Engine/make_model.php';
+			}
+		break;
+		
+		case 'service':
+		break;
+		
+		case 'generate':
+		
+			if(isset($argumen[1]))
+			{
+				switch($argumen[1])
+				{
+					case 'model':
+						
+						require 'System/Core/Engine/Generate_model.php';
+						
+					break;
+				}
+			}
+		break;
+		
+		case 'middleware': 
+			
+			if(isset($argumen[1]))
+			{
+				$class_name = $argumen[1];
+				
+				require 'System/Core/Engine/make_middleware.php';
+			}
+		break;
+		
+		case 'controller':
+			
+			if(isset($argumen[1]))
+			{
+				$class_name = $argumen[1];
+				
+				require 'System/Core/Engine/make_controller.php';
+			}
+		break;
+		
+	}
+}
+
