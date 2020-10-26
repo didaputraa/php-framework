@@ -20,10 +20,14 @@ function view($viewArg = '',$dataArg = [])
 	{
 		if(!empty($dataArg))
 		{
+			$tmp = [];
+			
 			foreach($dataArg as $k => $v)
 			{
 				global ${$k};
+				
 				${$k} = $v;
+				Generator::In($k);
 			}
 		}
 		
@@ -34,7 +38,6 @@ function view($viewArg = '',$dataArg = [])
 		else
 		{
 			ob_start();
-		
 			require $content;
 			
 			$buffer = htmlspecialchars(ob_get_contents(), ENT_QUOTES);
@@ -44,12 +47,11 @@ function view($viewArg = '',$dataArg = [])
 		
 		if(!empty($dataArg))
 		{
-			foreach($dataArg as $k => $v)
+			foreach(array_keys($dataArg) as $k)
 			{
 				unset(${$k});
 			}
 		}
 	}
-	
 	return htmlspecialchars_decode($buffer, ENT_QUOTES);
 }

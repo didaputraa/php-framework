@@ -8,7 +8,7 @@ class Generator extends GeneratorRule
 {
 	public static $content   = ['active' => '', 'content' => [], 'status' => 0];
 	private static $path	 = 'Storage/cacheSystem/';
-	
+	private static $globalData = [];
 	
 	private static function numberCache()
 	{
@@ -96,12 +96,22 @@ class Generator extends GeneratorRule
 		self::$content['status'] 	= 1;
 	}
 	
+	public static function In($key)
+	{
+		self::$globalData[] = $key;
+	}
+	
 	public static function phpImportTemplate($name = '')
 	{
 		$file = "App/View/{$name}.theme.php";
 		
 		if($name != '' && file_exists($file))
 		{
+			foreach(self::$globalData as $row)
+			{
+				global ${$row};
+			}
+			
 			$content = self::initCache($file, self::templateInit($file), 'theme');
 			
 			if(file_exists($content))
@@ -147,6 +157,11 @@ class Generator extends GeneratorRule
 	{
 		$buffer = '';
 		
+		foreach(self::$globalData as $row)
+		{
+			global ${$row};
+		}
+			
 		if(self::$content['status'] == 1)
 		{
 			$file = self::$content['extends'].'.theme.php';
