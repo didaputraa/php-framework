@@ -2,7 +2,7 @@
 use \System\Core\Engine\Console;
 
 $txt  = '<?php'.PHP_EOL;
-$txt .= '/*'.PHP_EOL .' *Created: '.date('d-m-Y H:i:s').PHP_EOL;
+$txt .= '/*'.PHP_EOL .' *Created: '.date('d-m-Y H:i:s').PHP_EOL .'*/'.PHP_EOL;
 $txt .= 'namespace App\Controller;'.PHP_EOL .PHP_EOL;
 $txt .= 'use System\Controllers\Controller;'.PHP_EOL .'use System\Core\Http\Request;'.PHP_EOL .PHP_EOL;
 

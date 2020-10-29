@@ -142,6 +142,15 @@ trait ValidateRequest
 						}
 					}
 				}
+				
+				if($match[0] == 'length')
+				{
+					if(strlen($inputan) > $match[1])
+					{
+						$error[$name]['length'] = "Maximum length in the {$name_field} field is {$match[1]}";
+						break;
+					}
+				}
 
 				if($match[0] == 'same')
 				{
