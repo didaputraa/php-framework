@@ -42,6 +42,12 @@ foreach($argument as $row)
 		break;
 		
 		case 'service':
+			if(isset($argumen[1]))
+			{
+				$class_name = $argumen[1];
+				
+				require 'System/Core/Engine/make_service.php';
+			}
 		break;
 		
 		case 'generate':
